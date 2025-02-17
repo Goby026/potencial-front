@@ -1,6 +1,6 @@
 import { Config } from 'datatables.net';
 import { DataTablesModule } from 'angular-datatables';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Cargo } from '../../models/cargo.model';
 import { CargoService } from '../../services/cargo.service';
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
   templateUrl: './lista-cargos.component.html',
   styleUrl: './lista-cargos.component.css',
 })
-export class ListaCargosComponent implements OnInit {
+export class ListaCargosComponent implements OnInit, OnDestroy {
   pageTitle: string = 'CARGOS';
   cargos: Cargo[] = [];
 
@@ -27,13 +27,14 @@ export class ListaCargosComponent implements OnInit {
   ngOnInit(): void {
     this.cargarCargos();
     this.dtoptions = {
-      pagingType: 'full_numbers',
-      searching: true,
-      //  paging:false
-      lengthChange: false,
-      language: {
-        searchPlaceholder: 'Text Customer',
-      },
+      pagingType: 'full_numbers'
+    };
+  }
+
+  ngOnDestroy(): void {
+    this.dttrigger.unsubscribe();
+    this.dtoptions = {
+      destroy: true,
     };
   }
 
