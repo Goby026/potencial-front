@@ -1,0 +1,42 @@
+<div class="card mb-4">
+  <div class="card-header d-sm-flex align-items-center justify-content-between">
+    <h1 class="h3 mb-0 text-gray-800">{{ pageTitle }}</h1>
+    <button class="btn btn-primary">ADD</button>
+  </div>
+  <div class="card-body">
+    @if (cargos.length > 0) {
+      <div class="table-responsive">
+        <table datatable [dtOptions]="dtoptions" [dtTrigger]="dttrigger">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Descripcion</th>
+              <th>Estado</th>
+              <th>Fecha</th>              
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of cargos; track item.id) {
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.descripcion }}</td>
+              <td>
+                @if (item.estado != 0) {
+                <span class="btn btn-success btn-circle">
+                  <i class="fas fa-check"></i>
+                </span>
+                }@else {
+                <span class="btn btn-warning btn-circle">
+                  <i class="fas fa-exclamation-triangle"></i>
+                </span>
+                }
+              </td>
+              <td>{{ item.createdAt | date : 'dd/MM/yyyy' }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+  </div>
+</div>
